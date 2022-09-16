@@ -107,7 +107,7 @@ export default {
   }
 
   &__options {
-    @apply absolute top-full left-0 z-10 flex min-w-full flex-col rounded-lg border-2 border-gray-300 bg-white;
+    @apply absolute top-full left-0 z-10 flex max-h-96 min-w-full flex-col overflow-y-auto rounded-lg border-2 border-gray-300 bg-white;
   }
 
   &__option {
