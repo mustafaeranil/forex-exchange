@@ -1,15 +1,15 @@
 import axios from "axios"
 
 const api = axios.create({
-  baseURL: "https://finnhub.io/api/v1/"
+  baseURL: process.env.VUE_APP_API_BASEURL
 })
 
-//X-Finnhub-Token in the header causing cors error
+// X-Finnhub-Token causing cors error in the header
+// so key added as a query parameter
 
 api.interceptors.request.use(
   (config) => {
-    //TODO: get api key from env
-    config.params = { ...config.params, token: "ccfgtpiad3i1hjpur9ag" }
+    config.params = { ...config.params, token: process.env.VUE_APP_SANDBOX_KEY }
 
     return config
   },

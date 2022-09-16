@@ -4,7 +4,14 @@ export default {
   state: {
     exchanges: [],
     symbols: [],
-    candles: []
+    candles: {
+      c: [],
+      h: [],
+      l: [],
+      o: [],
+      t: [],
+      v: []
+    }
   },
   getters: {
     exchangeOptions(state) {
@@ -72,15 +79,40 @@ export default {
             }
           })
           .then((res) => {
-            //c is listing closing price of candle
-            console.log(res.data.c)
-            commit("updateCandles", res.data.c)
+            commit("updateCandles", res.data)
             resolve()
           })
           .catch((err) => {
             reject(err)
           })
       })
+    },
+    addACandleToHistory({ state, commit }, candle) {
+      const newCandles = { ...state.candles }
+
+      // remove first candle for saving length of history
+      Object.keys(newCandles).forEach((key) => {
+        // avoid status property by checking is it an array
+        if (Array.isArray(newCandles[key])) {
+          newCandles[key].shift()
+        }
+      })
+
+      // add new candle
+      Object.entries(candle).forEach(([key, val]) => {
+        newCandles[key].push(val)
+      })
+
+      commit("updateCandles", newCandles)
+    },
+    updateLastCandle({ state, commit }, candle) {
+      const newCandles = { ...state.candles }
+
+      Object.entries(candle).forEach(([key, val]) => {
+        newCandles[key][newCandles[key].length - 1] = val
+      })
+
+      commit("updateCandles", newCandles)
     }
   },
   namespaced: true

@@ -2,6 +2,7 @@ import Vue from "vue"
 import App from "./App.vue"
 import store from "./store"
 import "./assets/style/main.pcss"
+import "currency-flags/dist/currency-flags.min.css"
 import { onClickOutside } from "./helpers/directives"
 
 Vue.config.productionTip = false
